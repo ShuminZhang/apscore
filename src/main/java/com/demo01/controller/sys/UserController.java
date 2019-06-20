@@ -56,7 +56,7 @@ public class UserController {
 		return "delete user";
 	}
 	
-	@RequiresPermissions(value={"add","update"},logical = Logical.AND)
+//	@RequiresPermissions(value={"add","update"},logical = Logical.AND)
 	@RequestMapping("/update")
 	public String updateUser() {
 		return "update user";
