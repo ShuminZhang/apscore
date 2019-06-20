@@ -9,4 +9,5 @@ public interface IUserService {
 	public User getUserByUsrPwd(String username,String password);
 	public User getUserByUsername(String username);
 	public String getMenusByUsername(String username) throws Exception;
+	public void insertUser(User user);
 }

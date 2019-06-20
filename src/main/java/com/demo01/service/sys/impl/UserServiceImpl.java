@@ -39,6 +39,11 @@ public class UserServiceImpl implements IUserService {
 	public List<User> getUsers() {
 		return userMapper.getUsers();
 	}
+	
+	@Override
+	public void insertUser(User user) {
+		userMapper.insert(user);
+	}
 
 	@Override
 	public User getUserByUsrPwd(String username, String password) {

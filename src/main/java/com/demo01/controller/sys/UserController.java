@@ -7,12 +7,16 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.demo01.entity.Message;
+import com.demo01.entity.PageOptions;
 import com.demo01.entity.sys.User;
 import com.demo01.service.sys.IUserService;
 
@@ -25,24 +29,28 @@ public class UserController {
 	@Autowired
 	private IUserService userService;
 	
-	@RequiresRoles(value={"teacher"},logical = Logical.OR)
+//	@RequiresRoles(value={"teacher"},logical = Logical.OR)
 	@RequestMapping("/test")
 	public String test() {
 		return "Hello, my first spring boot api!";
 	}
 	
-	@RequestMapping("/list")
-	public List<User> getUsers(){
+	@RequestMapping(value="/list",method=RequestMethod.POST)
+	@ResponseBody
+	public List<User> getUsers(@RequestBody PageOptions opt){
+		log.info(""+opt.getPageSize());
 		return userService.getUsers();
 	}
 	
-	@RequiresRoles(value={"admin","user"},logical = Logical.OR)
-	@RequestMapping("/insert")
-	public String insertUser() {
-		return "insert user";
+//	@RequiresRoles(value={"admin","user"},logical = Logical.OR)
+	@RequestMapping(value="/insert",method=RequestMethod.POST)
+	public Message insertUser(@RequestBody User user) {
+		userService.insertUser(user);
+		log.info(user.getUsername());
+		return new Message(0,"insert user");
 	}
 
-	@RequiresRoles(value={"admin","sutdent"},logical = Logical.OR)
+//	@RequiresRoles(value={"admin","sutdent"},logical = Logical.OR)
 	@RequestMapping("/delete")
 	public String deleteUser() {
 		return "delete user";
